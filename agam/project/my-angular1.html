@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="script/angular.min.js"></script>
+    <script>
+        var module=angular.module("myModule",[]);
+        module.controller("myController",function($scope)
+        {
+            $scope.fn="Gabbar Singh";
+            $scope.ln="";
+            $scope.full;
+            $scope.doHello=function()
+            {
+                alert("Hello "+$scope.fn);
+            }
+            $scope.doConcat=function()
+            {
+                $scope.full=$scope.fn+" "+$scope.ln;
+            }
+        })   
+    </script>
+</head>
+<body ng-app="myModule" ng-controller="myController">
+    <center>
+        <input type="text" ng-model="fn">
+        <input type="text" ng-model="ln">
+
+        <input type="button" ng-click="doHello();" value="Say hello">
+        <input type="button" ng-click="doConcat()" value="join">
+        <p>
+            {{fn}}
+        </p>
+        <p>
+            full name={{full}};
+        </p>
+        
+    </center>
+</body>
+</html>

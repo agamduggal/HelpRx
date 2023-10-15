@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HelpRx</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+
+        function doPrev(refFile, prevImg) {
+            const [file] = refFile.files
+            if (file) {
+                prevImg.src = URL.createObjectURL(file)
+            }
+        }
+        $(document).ready(function () {
+            $("#txtButton").click(function () {
+
+                var emailku = $("#txtEmail").val();
+                var pwdku = $("#txtpwd").val();
+                var typeku = $("#txttype").val();
+
+                var objNew = {
+                    type: "get",
+                    url: "/insert-info",
+                    data: {
+                        kuchemail: emailku,
+                        kuchpwd: pwdku,
+                        kuchtype: typeku
+                    }
+                }
+                $.ajax(objNew).done(function (respkuch) {
+                    $("#resp").html(respkuch);
+                }).fail(function (errkuch) {
+                    $("#resp").html(errkuch);
+                })
+            })
+            $("#txtEmail").blur(function () {
+              r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/ ;
+                if(r.test($("#txtEmail").val())==false)
+                {
+                  alert("Please enter the email id correctly");
+                  $("#txtButton").prop("disabled","true");
+                    //$("#res").html("ok").addClass("sokhay").removeClass("okhay");
+                }
+                else
+                $("#txtButton").prop("disabled",false);
+                //$("#res").html("Invalid Email Id").addClass("okhay").removeClass("sokhay");
+                
+                var emailid = $(this).val();
+                var obj = {
+                    type: "get",
+                    url: "/chk-email",
+                    data: {
+                        kuemail: emailid
+                    }
+                }
+                $.ajax(obj).done(function (respkuch) {
+                    $("#res").html(respkuch);
+                    if(respkuch=="email id already taken")
+                    $("#txtButton").prop("disabled","true");
+                    if(respkuch=="available")
+                    $("#txtButton").prop("disabled",false);
+                }).fail(function (errkuch) {
+                    $("#res").html(errkuch);
+                })
+            })
+            $("#loginbutton").click(function () {
+                
+                var email = $("#txtemail").val();
+                var password=$("#txtPwd").val();
+                var obj = {
+                    type: "get",
+                    url: "/search-info",
+                    data: {
+                        email: email,
+                        password:password
+                    }
+                }
+                $.ajax(obj).done(function (respjasonkuch) {
+                    localStorage.setItem("activekuch",$("#txtemail").val());
+                    if(respjasonkuch=="you have been blocked by the admin")
+                    {
+                        alert("you have been blocked by the admin");
+                        $("#loginbutton").prop("disabled","true");
+                    }
+                    else
+                    {
+                        if(respjasonkuch=="Donor")
+                        {
+                            
+                            location.href="dash-donor.html";
+                        }
+                        else if(respjasonkuch=="Needy")
+                        {
+                            
+                            location.href="dash-needy.html";
+                        }
+                        else if(respjasonkuch=="admin")
+                        {
+                            location.href="dash-admin.html";
+                        }
+                        // else if(respjasonkuch=="[]")
+                        // alert("wrong emailid or password");
+                    }
+                    /*$("#txtpwd").val(respjasonkuch[0].password);
+                    $("#txttype").val(respjasonkuch[0].type);
+                    $("#imgPrev").prop("src", "/uploads" + respjasonkuch[0].picname);
+                    $("#hdn").val(respjasonkuch[0].picname)*/
+                }).fail(function (errkuch) {
+                    alert(errkuch);
+                })
+            })
+        $("#txtemail").blur(function () {
+              r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/ ;
+                if(r.test($("#txtemail").val())==false)
+                {
+                  alert("Please enter the email id correctly");
+                  $("#loginbutton").prop("disabled","true");
+                    //$("#res").html("ok").addClass("sokhay").removeClass("okhay");
+                }
+                else
+                $("#loginbutton").prop("disabled",false);
+              })
+            })
+        // $("#txtPwd").blur(function()
+        //     {
+        //         r=/(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+        //         if(r.test($("#txtPwd").val())==false)
+        //         {
+        //           alert("please enter the password correctly");
+        //             //$("#errPwd").html("ok").addClass("sokhay").removeClass("okhay");
+        //         }
+        //         else
+
+        //         //$("#errPwd").html("Invalid password").addClass("okhay").removeClass("sokhay");
+        //     })
+
+    </script>
+    <style>
+        .sokhay
+        {
+            color: green;
+            font-weight: bold;
+            background-color: lightgreen;
+            float: left;
+            padding: 1px 10px 3px 10px;
+            margin-top: 5px;
+        }
+        .okhay
+        {
+            color: red;
+            font-weight: bold;
+            background-color: lightpink;
+            float: left;
+            padding: 1px 10px 3px 10px;
+            margin-top: 5px;
+        }
+     </style>
+  
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary sticky-top">
+        <div class="container-fluid">
+            <img src="uploads/logo.jpg" alt="Logo" width="60px" height="50px" class="d-inline-block align-text-top">
+            <div class="h2 text-success ms-4 mt-3 fw-semibold" style="display: inline;">HelpRx</div>
+
+            
+            <form class="d-flex" role="search" method="post" enctype="multipart/form-data">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signup">
+                    Signup
+                </button>
+                &nbsp;
+                <button class="btn btn-outline-success" type="button" data-bs-target="#login" data-bs-toggle="modal">Login</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="signup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="hdn" name="hdn">
+                    <div class="modal-body">
+
+
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="txtEmail" name="txtEmail"
+                                aria-describedby="emailHelp">
+                            <span id="res" class="form-text">*</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="txtpwd" name="txtpwd">
+                        </div>
+                        <div>
+                            <select class="form-select col-md-3" aria-label="multiple select example" id="txttype"
+                                name="txttype">
+                                <option selected>Type</option>
+                                <option value="Donor">Donor</option>
+                                <option value="Needy">Needy</option>
+
+                            </select>
+                        </div>
+                        <br>
+                        
+                        <input type="button" class="btn btn-primary" id="txtButton" value="Signup"></input>
+                        <span id="resp" class="form-text">*</span>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="hdn" name="hdn">
+                    <div class="modal-body">
+
+
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="txtemail" name="txtemail"
+                                aria-describedby="emailHelp">
+                            <span id="res" class="form-text">*</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="txtPwd" name="txtPwd">
+                        </div>
+                        <br>
+
+                        <input type="button" class="btn btn-primary" id="loginbutton" value="login"></input>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="3000">
+            <img src="uploads/gaurd.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="uploads/here to help.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="uploads/support.jpg" class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <center>
+        <div class="container mt-2 mb-2">
+          <span class="mb-0 h3 text-center"><p class="text-center mb-1">Our Services</p></span>
+        </div>
+      </center>
+      <div class="container mt-3">
+        <div class="row">
+          <div class="col-md-3 mb-1">
+            <div class="card" style="width: 18rem;height: 28rem;overflow-y: scroll;">
+              <img src="uploads/donation.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title text-success">Donation</h5>
+                <p class="card-text text-info-emphasis">Help is the kindest action.Your small step towards change can bring a smile on many faces. Through our website you can reach the ones in need.</p>
+                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-1">
+            <div class="card" style="width: 18rem;height: 28rem;overflow-y: scroll;">
+              <img src="uploads/needy.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title text-danger">Needy</h5>
+                <p class="card-text text-warning-emphasis">Many people in the society are deprived of the basic needs of life. We here will provide you with everything you need and try our best to help you.</p>
+                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-1">
+            <div class="card" style="width: 18rem;overflow-y: scroll; height: 28rem;">
+              <img src="uploads/terms.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title text-info">Terms and conditions</h5>
+                <p class="card-text text-success"><ol class="text-success"><li>The donor and needy must contact each other in case of any discrepancy. We are not responsible for anything.</li><li>In case of any fraud or illegal selling of products the company is not responsible for consequences and if found guilty you will be blocked from our panel.</li></ol></p>
+                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-1">
+            <div class="card" style="width: 18rem;height: 28rem;overflow-y: scroll;">
+              <img src="uploads/non profit.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title text-warning">Non-profit organisation</h5>
+                <p class="card-text text-danger">We are a non-profit organisation. We do not aim at gaining anything by selling items to fraud people or illegaly in black market.</p>
+                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <center>
+        <div class="container mt-2 mb-2">
+          <span class="mb-0 h3 text-center"><p class="text-center mb-1">About us</p></span>
+        </div>
+      </center>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 mt-1 mb-1">
+            <img src="uploads/agamduggal.jpg" class="img-thumbnail" alt="..." width="250px" height="250px">
+          </div>
+          <div class="col-md-3 mt-1 mb-1">
+            <div class="card" style="width: 18rem;height: 248px;">
+              <div class="card-header fw-semibold text-primary h4">
+                Developed By:
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><span class="text-info h3">Name:</span class="text-danger h4">Agambir Duggal</li>
+                <li class="list-group-item"><span class="text-info h3">College:</span class="text-danger h4">Thapar Institute of Engineering and Technology,Patiala</li>
+                <li class="list-group-item"><span class="text-info h3">Email:</span class="text-danger h4">duggalagambir@gmail.com</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-3 mt-1 mb-1">
+            <img src="uploads/rajesh-sir.png" class="img-thumbnail" alt="..." width="250px" height="250px">
+          </div>
+          <div class="col-md-3 mt-1 mb-1">
+            <div class="card" style="width: 18rem;height: 248px;">
+              <div class="card-header fw-semibold text-primary h4">
+                Under the guidance of:
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><span class="text-info h3">Name:</span>Rajesh Bansal</li>
+                <li class="list-group-item"><span class="text-info h3">Institute:</span>Banglore Computer Education, Bathinda</li>
+                <li class="list-group-item"><span class="text-info h3">Author of:</span>Real Java</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <center>
+        <div class="container mt-2 mb-2">
+          <span class="mb-0 h3 text-center"><p class=" mb-1">Reach Us</p></span>
+        </div>
+      </center>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3442.807363990492!2d76.36212627544798!3d30.35642417476801!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391028ab86533db5%3A0x93cc1f72eae1c9a8!2sThapar%20Institute%20of%20Engineering%20%26%20Technology%20(TIET)%2C%20Patiala!5e0!3m2!1sen!2sin!4v1689873240054!5m2!1sen!2sin" width="560" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="col-md-6">
+            <iframe width="600" height="450" src="https://www.youtube.com/embed/zJSY8tbf_ys" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+</body>
+
+</html>

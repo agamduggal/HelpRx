@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="script/angular.min.js"></script>
+    <script>
+        var module=angular.module("myModule",[]);
+        module.controller("myController",function($scope)
+        {
+            $scope.java="";
+            $scope.cpp="";
+            $scope.webdev="";
+            $scope.sum;
+            $scope.doSum=function()
+            {
+                $scope.sum=parseFloat($scope.java)+parseFloat( $scope.cpp)+parseFloat($scope.webdev);
+            }
+            $scope.per;
+            $scope.doPer=function()
+            {
+                $scope.per=$scope.sum/3;
+            }
+            $scope.result;
+            $scope.doresult=function()
+            {
+                if($scope.per<50)
+                $scope.result="fail";
+                else
+                $scope.result="pass";
+            }
+        })
+    </script>
+</head>
+<body ng-app="myModule" ng-controller="myController">
+    marks in java=<input type="text" ng-model="java" ng-blur="dochk()"><br>
+    marks in cpp=<input type="text" ng-model="cpp" ng-blur="dochk()"><br>
+    marks in webdev=<input type="text" ng-model="webdev" ng-blur="dochk()">
+    <br>
+    <input type="button" ng-click="doSum()" value="sum"><br>
+    <input type="button" ng-click="doPer()" value="per"><br>
+    <input type="button" ng-click="doresult()" value="result"><br>
+    sum=<input type="text" ng-model="sum"><br>
+    per=<input type="text" ng-model="per"><br>
+    result=<input type="text" ng-model="result"><br>
+</body>
+</html>

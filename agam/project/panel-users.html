@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="script/angular.min.js"></script>
+    <script>
+        var module=angular.module("myModule",[]);
+        module.controller("myController",function($scope,$http)
+        {
+            $scope.dofetch=function()
+            {
+                var url="/get-json-record-users-admin";
+                $http.get(url).then(done,fail);
+                function done(response)
+                {
+                    alert(JSON.stringify(response.data));
+                    $scope.jasonArray=response.data;
+                }
+                function fail(response)
+                {
+                    alert(response.data);
+                }
+            }
+            $scope.doDelete=function(email)
+            {
+                var url="/delete-users-admin?emailkuch="+email;
+                $http.get(url).then(done,fail);
+                function done(response)
+                {
+                    alert(response.data);
+                    $scope.dofetch();
+                }
+                function fail(response)
+                {
+                    alert(response.data)
+                }
+            }
+            
+            $scope.doBlock=function(email)
+            {
+                var url ="/block-status-admin?emailkuch="+email;
+                $http.get(url).then(done,fail);
+                function done(response)
+                {
+                    alert(response.data);
+                    $scope.dofetch();
+
+                }
+                function fail(err)
+                {
+                    alert(err);
+                }
+            }
+            $scope.doResume=function(email)
+            {
+                var url="/resume-status-admin?emailkuch="+email;
+                $http.get(url).then(done,fail);
+                function done(response)
+                {
+                    alert(response.data);
+                    // $scope.jasonArray.status=response;
+
+                    $scope.dofetch();
+                }
+                function fail(response)
+                {
+                    alert(response.data);
+                }
+            }
+        })
+    </script>
+</head>
+<body ng-app="myModule" ng-controller="myController">
+    <center>
+        <input type="button" value="fetchRecords" ng-click="dofetch()">
+        <table width="800" border="1" >
+            <th>Sr no.</th><th>Email</th><th>Password</th><th>Type</th><th>dos</th><th>status</th><th>operations</th>
+            <tr ng-repeat="obj in jasonArray">
+                <td>{{$index+1}}</td>
+                <td>{{obj.email}}</td>
+                <td>{{obj.password}}</td>
+                <td>{{obj.type}}</td>
+                <td>{{obj.dos}}</td>
+                <td>{{obj.status}}</td>
+                <td>
+                    <input type="button" value="delete" ng-click="doDelete(obj.email)">
+                    <input type="button" value="Block" ng-click="doBlock(obj.email)">
+                    <input type="button" value="Resume" ng-click="doResume(obj.email)">
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>

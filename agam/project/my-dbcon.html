@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/my-signup.css">
+    <script>
+        function doPrev(refFile, prevImg) {
+            const [file] = refFile.files
+            if (file) {
+                prevImg.src = URL.createObjectURL(file)
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <section class="vh-100">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-lg-12 col-xl-11">
+                        <div class="card text-black" style="border-radius: 25px;">
+                            <div class="card-body p-md-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-10 col-lg-6 col-xl-8 order-2 order-lg-1">
+
+                                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+
+                                        <form class="mx-1 mx-md-4">
+                                            <div class="row">
+                                                <div class="d-flex flex-row align-items-center mb-4 col-md-5">
+                                                    <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                                    <div class="form-outline flex-fill mb-0">
+                                                        <input type="email" value="nikhilgarg288@gmail.com"
+                                                            name="txtEmail" class="form-control" />
+                                                        <label class="form-label" for="form3Example3c">Your
+                                                            Email</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4 col-md-3">
+                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                        formaction="/db-signup-search-secure">Search</button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-row align-items-center mb-4 col-md-4">
+                                                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                                                    <div class="form-outline flex-fill mb-0">
+                                                        <input type="text" value="Nikhil" name="txtName"
+                                                            class="form-control" />
+                                                        <label class="form-label" for="form3Example1c">Your Name</label>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-row align-items-center mb-4 col-md-4">
+                                                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                                                    <div class="form-outline flex-fill mb-0">
+                                                        <input type="text" value="7627857757" name="txtContact"
+                                                            class="form-control" />
+                                                        <label class="form-label" for="form3Example1c">Contact
+                                                            Number</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-row align-items-center mb-4 col-md-5">
+                                                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                                                    <div class="form-outline flex-fill mb-0">
+                                                        <input type="password" value="121Lane" name="txtAddress"
+                                                            class="form-control" />
+                                                        <label class="form-label" for="form3Example4c">Address</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex flex-row align-items-center mb-4 col-md-3">
+                                                    <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                                                    <div class="form-outline flex-fill mb-0">
+                                                        <input list="mylist" name="txtCity">
+                                                        <datalist id="mylist">
+                                                            <option value="Chandigarh">Chandigarh</option>
+                                                            <option value="delhi">delhi</option>
+                                                            <option value="dehradun">dehradun</option>
+                                                            <option value="mumbai">mumbai</option>
+                                                        </datalist>
+                                                        <label class="form-label" for="form3Example4cd">
+                                                            city</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="row">
+                                                    <div class="d-flex flex-row align-items-center mb-4 col-md-5">
+                                                        <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                                                        <div class="form-outline flex-fill mb-0">
+                                                            <input type="date" name="txtDOB">
+                                                            <label class="form-label" for="form3Example4c">Date of
+                                                                Birth</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+
+                                                        <select class="form-select col-md-3"
+                                                            aria-label="multiple select example" name="txtGender">
+                                                            <option selected>Gender</option>
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                            <option value="Others">Others</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+
+                                                        <select class="form-select col-md-3"
+                                                            aria-label="multiple select example" name="txtID">
+                                                            <option selected>I'D Proof</option>
+                                                            <option value="bti">Aadhar Card</option>
+                                                            <option value="chand">Pan Card</option>
+                                                            <option value="bang">Driving License</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="file" name="nppic" id="ippic" accept="image/*"
+                                                            onchange="doPrev(this,imgPrev)">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <img src="" alt="" id="imgPrev" width="100px" height="100px">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                
+                                                <br>
+
+                                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                        formaction="/db-signup-process-secure">Submit</button>
+                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                        formaction="/db-signup-update-secure">update</button>
+                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                        formaction="/db-signup-delete-secure">delete</button>
+                                                </div>
+
+                                        </form>
+
+                                    </div>
+                                    <div
+                                        class="col-md-10 col-lg-6 col-xl-4 d-flex align-items-center order-1 order-lg-2">
+
+                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                                            class="img-fluid" alt="Sample image">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

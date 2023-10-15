@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        function setactiveuser()
+      {
+        var au=localStorage.getItem("activekuch");
+        alert(au);
+        $("#txtEmail").val(au);
+      }
+      setactiveuser();
+            $("#txtButton").click(function () {
+
+                var emailku = $("#txtEmail").val();
+                var nameku = $("#txtname").val();
+                var dateku = $("#txtDate").val();
+                var typeku = $("#txttype").val();
+                var qtyku = $("#txtqty").val();
+                var objNew = {
+                    type: "get",
+                    url: "/insert-info-med",
+                    data: {
+                        kuchemail: emailku,
+                        kuchname: nameku,
+                        kuchdate: dateku,
+                        kuchtype: typeku,
+                        kuchqty: qtyku
+                    }
+                }
+                $.ajax(objNew).done(function (respkuch) {
+                    $("#resp").html(respkuch);
+                    
+                }).fail(function (errkuch) {
+                    $("#resp").html(errkuch);
+                })
+            })
+          })
+    </script>
+</head>
+
+<body>
+  <nav class="navbar bg-body-tertiary sticky-top">
+    <div class="container-fluid">
+        <img src="uploads/logo.jpg" alt="Logo" width="60px" height="50px" class="d-inline-block align-text-top">
+        <div class="h2 text-success ms-4 mt-3 fw-semibold" style="display: inline;">HelpRx</div>
+        <form class="d-flex" role="search" method="post" enctype="multipart/form-data">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="logout">Logout</button>
+        </form>
+    </div>
+  </nav>
+  <section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+          <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">AVAIL MEDICINE</h3>
+              <form method="post" enctype="multipart/form-data">
+
+                <div class="form-outline">
+                  <input type="email" id="txtEmail" class="form-control form-control-lg" readonly/>
+                  <label class="form-label" for="firstName">Email</label>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="text" id="txtname" class="form-control form-control-lg" />
+                      <label class="form-label" for="emailAddress">Med. Name</label>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="date" id="txtDate" class="form-control form-control-lg" />
+                      <label class="form-label" for="phoneNumber">Exp. Date</label>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+
+                    <select class="select form-control-lg" id="txttype">
+                      <option value="Packing" selected>Packing</option>
+                      <option value="Bottle">Bottle</option>
+                      <option value="Sache">Sache</option>
+                      <option value="Tablet">Tablet</option>
+                    </select>
+                    <label class="form-label select-label">Choose option</label>
+
+                  </div>
+                  <div>
+                    <div class="form-outline col-md-6">
+                      <input type="number" id="txtqty" class="form-control form-control-lg" />
+                      <label class="form-label" for="phoneNumber">Qty</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-4 pt-2">
+                  <input class="btn btn-primary btn-lg" type="button" id="txtButton" value="Avail Med." />
+                </div>
+                <span id="resp">*</span>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+
+</html>
